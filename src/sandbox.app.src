@@ -1,0 +1,12 @@
+{application, sandbox,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { sandbox_app, []}},
+  {env, []}
+ ]}.
