@@ -1,4 +1,4 @@
--module(sandbox).
+-module(prio_queue).
 
 -export([
     start_link/0,
@@ -17,7 +17,7 @@
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
--define(STATE, sandbox_state).
+-define(STATE, prio_queue_state).
 -record(?STATE, {
     pqueue
 }).
@@ -31,14 +31,14 @@ insert(Item) ->
 
 %% insert to a specific priority
 insert(Item, Priority) ->
-    gen_server:call(sandbox, {insert, Item, Priority}).
+    gen_server:call(prio_queue, {insert, Item, Priority}).
 
 %% Highest priority first.
 priority_read() ->
-    gen_server:call(sandbox, {priority_read}).
+    gen_server:call(prio_queue, {priority_read}).
 
 read(Priority) ->
-    gen_server:call(sandbox, {read, Priority}).
+    gen_server:call(prio_queue, {read, Priority}).
 
 %% ---------------
 
@@ -77,7 +77,7 @@ code_change(_OldVsn, State, _Extra) ->
 %% Here -20(Highest) priority reads happen faster than the lower prio reads
 %% So the printout should be all the -20 ones first, then the -10 ones
 start() ->
-    {ok, _Pid} = sandbox:start_link(),
+    {ok, _Pid} = prio_queue:start_link(),
     insert_loop(500, -20, 50),
     insert_loop(1000, -10, 50),
     priority_read_loop(750).
@@ -86,7 +86,8 @@ insert_loop(_SleepTime, _Prio, Count) when Count =< 0 ->
     io:format("insert loop done!~n");
 insert_loop(SleepTime, Prio, Count) ->
     ok = insert({erlang:now(), Prio}, Prio),
-    timer:apply_after(SleepTime, ?MODULE, insert_loop, [SleepTime, Prio, Count-1]).
+    % timer:apply_after(SleepTime, ?MODULE, insert_loop, [SleepTime, Prio, Count-1]).
+    insert_loop(SleepTime, Prio, Count-1).
 
 %% Read the highest priority
 priority_read_loop(SleepTime) ->

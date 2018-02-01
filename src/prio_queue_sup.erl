@@ -1,4 +1,4 @@
--module(sandbox_sup).
+-module(prio_queue_sup).
 
 -behaviour(supervisor).
 
@@ -11,7 +11,7 @@
 %% Helper macro for declaring children of supervisor
 -define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
 
--include("sandbox.hrl").
+-include("prio_queue.hrl").
 
 %% ===================================================================
 %% API functions

@@ -1,18 +1,18 @@
--module(sandbox_app).
+-module(prio_queue_app).
 
 -behaviour(application).
 
 %% Application callbacks
 -export([start/2, stop/1]).
 
--include("sandbox.hrl").
+-include("prio_queue.hrl").
 
 %% ===================================================================
 %% Application callbacks
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    sandbox_sup:start_link().
+    prio_queue_sup:start_link().
 
 stop(_State) ->
     ok.

@@ -1,4 +1,4 @@
-{application, sandbox,
+{application, prio_queue,
  [
   {description, ""},
   {vsn, "1"},
@@ -7,6 +7,6 @@
                   kernel,
                   stdlib
                  ]},
-  {mod, { sandbox_app, []}},
+  {mod, { prio_queue_app, []}},
   {env, []}
  ]}.
